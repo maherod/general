@@ -5,6 +5,9 @@
 CURL_POST="/usr/bin/curl -s -H 'X-Forwarded-for: 1.2.3.4' -A 'iMacAppStore/1.0.1 (Macintosh; U; Intel Mac OS X 10.6.7; en) AppleWebKit/533.20.25' -si -X POST"
 CURL_GET="/usr/bin/curl -s -H 'X-Forwarded-for: 1.2.3.4' -A 'iMacAppStore/1.0.1 (Macintosh; U; Intel Mac OS X 10.6.7; en) AppleWebKit/533.20.25' -si"  
 CURL_HEAD="/usr/bin/curl -s -H 'X-Forwarded-for: 1.2.3.4' -A 'iMacAppStore/1.0.1 (Macintosh; U; Intel Mac OS X 10.6.7; en) AppleWebKit/533.20.25' -sI"  
+
+# VARS
+
 GFILE="/tmp/$1"
 
 WEB=$1
@@ -12,12 +15,13 @@ BURI=$2
 QUAN=$3
 METHOD=$4
 
-# COLORS
 RED="\033[1;31m"
 YELLOW="\033[1;33m"
 GREEN="\033[1;32m"
 BOLD="\033[1m"
 RESET="\033[0m"
+
+# Begin
 
 echo -e "${YELLOW}-----------------------------------------------"${RESET}
 echo -e "${BOLD}This script generates random params to site"
