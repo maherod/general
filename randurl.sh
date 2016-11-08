@@ -4,6 +4,7 @@
 
 CURL_POST="/usr/bin/curl -s -H 'X-Forwarded-for: 1.2.3.4' -A 'iMacAppStore/1.0.1 (Macintosh; U; Intel Mac OS X 10.6.7; en) AppleWebKit/533.20.25' -si -X POST"
 CURL_GET="/usr/bin/curl -s -H 'X-Forwarded-for: 1.2.3.4' -A 'iMacAppStore/1.0.1 (Macintosh; U; Intel Mac OS X 10.6.7; en) AppleWebKit/533.20.25' -si"  
+CURL_HEAD="/usr/bin/curl -s -H 'X-Forwarded-for: 1.2.3.4' -A 'iMacAppStore/1.0.1 (Macintosh; U; Intel Mac OS X 10.6.7; en) AppleWebKit/533.20.25' -sI"  
 GFILE="/tmp/randout"
 
 # COLORS
@@ -20,7 +21,7 @@ echo -e "${YELLOW}-----------------------------------------------"${RESET}
 read -p "Enter FQDN: " WEB
 read -p "Base URI: " BURI
 read -p "Number of Requests: " QUAN
-read -p "Enter GET or POST: " METHOD
+read -p "Enter GET POST or HEAD: " METHOD
 
 function GEN {
  cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n $QUAN > $GFILE
@@ -54,6 +55,21 @@ function POST {
   sleep 2
   for i in `cat $GFILE`
    do $CURL_POST ${WEB}"/"${BURI}"/"$i > /dev/null ;
+  done
+}
+
+function HEAD {
+ clear
+  echo -e "${YELLOW}------------------------------------"${RESET}
+  echo -e "${BOLD}Testing $WEB with HEAD Method"
+  echo -e "Total: $QUAN Requests"
+  echo -e "Base URI : $BURI"
+  echo -e "HIT CTRL+C to Stop"${RESET}
+  echo -e "${YELLOW}------------------------------------"${RESET}
+  GEN
+  sleep 2
+  for i in `cat $GFILE`
+   do $CURL_HEAD ${WEB}"/"${BURI}"/"$i > /dev/null ;
   done
 }
 
@@ -100,6 +116,10 @@ fi
 
 if [ "$METHOD" == "POST" ]; then
  POST 
+fi
+
+if [ "$METHOD" == "HEAD" ]; then
+ HEAD
 fi
 
 # Deleting Output files
