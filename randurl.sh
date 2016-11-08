@@ -30,6 +30,7 @@ function GET {
   echo -e "${YELLOW}------------------------------------"${RESET}
   echo -e "${BOLD}Testing $WEB with GET Method"
   echo -e "Total: $QUAN Requests"
+  echo -e "Base URI : $BURI"
   echo -e "HIT CTRL+C to Stop"${RESET}
   echo -e "${YELLOW}------------------------------------"${RESET}
   for i in `cat /tmp/$WEB`
@@ -42,6 +43,7 @@ function POST {
   echo -e "${YELLOW}------------------------------------"${RESET}
   echo -e "${BOLD}Testing $WEB with POST Method"
   echo -e "Total: $QUAN Requests"
+  echo -e "Base URI : $BURI"
   echo -e "HIT CTRL+C to Stop"${RESET}
   echo -e "${YELLOW}------------------------------------"${RESET}
   for i in `cat /tmp/$WEB`
@@ -71,7 +73,7 @@ if [ -z "$BURI" ]
  then
    clear
    echo -e "${YELLOW}--------------------------------"${RESET}
-   echo -e "${RED}No URI Provided, Quitting"${RESET}
+   echo -e "${RED}No BURI Provided, Quitting"${RESET}
    echo -e "${YELLOW}--------------------------------"${RESET}
    exit 1
 fi
