@@ -4,6 +4,7 @@
 
 CURL_POST="/usr/bin/curl -s -H 'X-Forwarded-for: 1.2.3.4' -A 'iMacAppStore/1.0.1 (Macintosh; U; Intel Mac OS X 10.6.7; en) AppleWebKit/533.20.25' -si -X POST"
 CURL_GET="/usr/bin/curl -s -H 'X-Forwarded-for: 1.2.3.4' -A 'iMacAppStore/1.0.1 (Macintosh; U; Intel Mac OS X 10.6.7; en) AppleWebKit/533.20.25' -si"  
+GFILE="/tmp/randout"
 
 # COLORS
 RED="\033[1;31m"
@@ -19,10 +20,10 @@ echo -e "${YELLOW}-----------------------------------------------"${RESET}
 read -p "Enter FQDN: " WEB
 read -p "Base URI: " BURI
 read -p "Number of Requests: " QUAN
-read -p  "Enter (1) for GET Requests or (2) for POST Requests: " METHOD
+read -p "Enter GET or POST: " METHOD
 
 function GEN {
- cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n $QUAN > /tmp/$WEB
+ cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n $QUAN > $GFILE
 }
 
 function GET {
@@ -33,10 +34,13 @@ function GET {
   echo -e "Base URI : $BURI"
   echo -e "HIT CTRL+C to Stop"${RESET}
   echo -e "${YELLOW}------------------------------------"${RESET}
-  for i in `cat /tmp/$WEB`
+  GEN 
+  sleep 2
+  for i in `cat $GFILE`
    do $CURL_GET ${WEB}"/"${BURI}"/"$i > /dev/null ;
   done
 }
+
 
 function POST {
  clear
@@ -46,7 +50,9 @@ function POST {
   echo -e "Base URI : $BURI"
   echo -e "HIT CTRL+C to Stop"${RESET}
   echo -e "${YELLOW}------------------------------------"${RESET}
-  for i in `cat /tmp/$WEB`
+  GEN
+  sleep 2
+  for i in `cat $GFILE`
    do $CURL_POST ${WEB}"/"${BURI}"/"$i > /dev/null ;
   done
 }
@@ -87,16 +93,16 @@ if [ -z "$QUAN" ]
    exit 1
 fi
 
-# Calling GEN Function
-GEN
-
-
 # Calling Web Script
-if [ $METHOD = "1" ]; then
-  GET 
-else
-  POST
+if [ "$METHOD" == "GET" ]; then
+ GET
+fi
+
+if [ "$METHOD" == "POST" ]; then
+ POST 
 fi
 
 # Deleting Output files
-rm /tmp/$WEB
+if [ -f $GFILE ]; then
+ rm $GFILE
+fi
