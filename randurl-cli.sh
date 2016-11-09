@@ -43,7 +43,6 @@ function GET {
   echo -e "HIT CTRL+C to Stop"${RESET}
   echo -e "${YELLOW}------------------------------------"${RESET}
   GEN
-  sleep 2
   for i in `cat $GFILE`
    do $CURL_GET ${WEB}"/"${BURI}"/"$i > /dev/null ;
   done
@@ -58,7 +57,6 @@ function POST {
   echo -e "HIT CTRL+C to Stop"${RESET}
   echo -e "${YELLOW}------------------------------------"${RESET}
   GEN
-  sleep 2
   for i in `cat $GFILE`
    do $CURL_POST ${WEB}"/"${BURI}"/"$i > /dev/null ;
   done
@@ -73,7 +71,6 @@ function HEAD {
   echo -e "HIT CTRL+C to Stop"${RESET}
   echo -e "${YELLOW}------------------------------------"${RESET}
   GEN
-  sleep 2
   for i in `cat $GFILE`
    do $CURL_HEAD ${WEB}"/"${BURI}"/"$i > /dev/null ;
   done
