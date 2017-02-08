@@ -11,12 +11,13 @@ echo -e "${YELLOW}------------------------------------------------------"${RESET
 echo -e "${BOLD}This script generates random strings output to a file"
 echo -e "${YELLOW}------------------------------------------------------"${RESET}
 echo ""
-read -p "Please enter output file: " FILE
+#read -p "Please enter output file: " FILE
 read -p "Please enter Quantity: " QUAN
 
 function GEN {
- cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n $QUAN
+ cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8| head -n $QUAN
 }
 
 
-GEN > $FILE
+#GEN > $FILE
+GEN

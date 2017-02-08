@@ -60,6 +60,19 @@ function GETS {
   done
 }
 
+function GETSA {
+ clear
+  echo -e "${YELLOW}------------------------------------"${RESET}
+  echo -e "${BOLD}Testing $WEB with GET Method"
+  echo -e "Total: $QUAN Requests"
+  echo -e "HIT CTRL+C to Stop"${RESET}
+  echo -e "${YELLOW}------------------------------------"${RESET}
+  for i in $(seq 1 $QUAN)
+   do $CURL_GET ${WEB}"/"$i > /dev/null ;
+  done
+}
+
+
 function POST {
  clear
   echo -e "${YELLOW}------------------------------------"${RESET}
@@ -101,8 +114,12 @@ if [ "$METHOD" == "HEAD" ]; then
  HEAD 
 fi
 
-if [ "$METHOD" == "STATIC" ]; then
+if [ "$METHOD" == "GETS" ]; then
  GETS 
+fi
+
+if [ "$METHOD" == "GETSA" ]; then
+ GETSA
 fi
 
 # Deleting Output files
