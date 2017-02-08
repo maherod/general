@@ -5,9 +5,11 @@ from sys import argv
 
 script, site = argv
 
-url = "http://%s" % (site)
-r = requests.get(url)
-server = r.headers['server']
-host = url
+user_agent = {'User-agent': 'Mozilla/5.0'}
 
-print "%s is running %s" %(url,server)
+url = "http://%s" % (site)
+r = requests.get(url, headers=(user_agent))
+server = r.headers['server']
+
+host = url
+print "%s is running %s" %(url,server) 
