@@ -17,7 +17,7 @@ function nol {
 }
 
 function showl {
-  $_TC -s qdisc ls dev $DEV
+  $_TC -s -d class show dev $DEV
 }
 
 case "$1" in
