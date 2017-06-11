@@ -1,23 +1,30 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-DEV="eth0"
+DEV="bond0"
 _TC="/sbin/tc"
-BW="1mbit"
+BW="4000mbit"
 U32="$_TC filter add dev $DEV protocol ip parent 1:0 prio 1 u32"
 DPORT="443"
+PID="/var/run/limiter.pid"
 
 function setl {
   $_TC qdisc add dev $DEV root handle 1: htb default 30
   $_TC class add dev $DEV parent 1: classid 1:1 htb rate $BW
   $U32 match ip dport $DPORT 0xffff flowid 1:1
+  echo "bandwidth limiter is running" > $PID
 }
 
 function nol {
   $_TC qdisc del dev $DEV root
+  rm $PID
 }
 
 function showl {
-  $_TC -s -d class show dev $DEV
+  if [ -f $PID ] ; then
+    $_TC -s -d class show dev $DEV
+  else
+    echo "bandwidth limiter not running"
+ fi
 }
 
 case "$1" in
@@ -28,12 +35,12 @@ case "$1" in
 
   stop)
   nol
-        echo "Stopped Bandwidth Shaping"
+        echo "Stopped Bandwidth limiter"
   ;;
 
   status)
   clear
-  for i in {1..8} ; do showl ; sleep 1 ; clear ; done
+  for i in {1..2} ; do showl ; sleep 1 ; clear ; done
   ;;
 
   *)
