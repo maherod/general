@@ -40,7 +40,6 @@ case "$1" in
   stop)
   nol
         echo "Stopping Bandwidth limiter"
-  sleep 1
   ;;
 
   status)
