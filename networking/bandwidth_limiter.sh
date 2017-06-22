@@ -8,10 +8,14 @@ DPORT="443"
 PID="/var/run/limiter.pid"
 
 function setl {
+  if [ -f $PID ] ; then
+   echo "Bandwidth limiter already running with $BW set on port $DPORT"
+ else
   $_TC qdisc add dev $DEV root handle 1: htb default 30
   $_TC class add dev $DEV parent 1: classid 1:1 htb rate $BW
   $U32 match ip dport $DPORT 0xffff flowid 1:1
-  echo "bandwidth limiter is running" > $PID
+  touch $PID
+fi
 }
 
 function nol {
@@ -30,17 +34,17 @@ function showl {
 case "$1" in
   start)
   setl
-  echo "Bandwidth Limited to $BW on dport $DPORT"
+  echo "Bandwidth Limiter is set to BW: $BW on DPORT $DPORT"
   ;;
 
   stop)
   nol
-        echo "Stopped Bandwidth limiter"
+        echo "Stopping Bandwidth limiter"
+  sleep 1
   ;;
 
   status)
-  clear
-  for i in {1..2} ; do showl ; sleep 1 ; clear ; done
+  showl 
   ;;
 
   *)
