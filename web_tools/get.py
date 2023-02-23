@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 import requests
 from sys import argv
 
@@ -12,4 +10,4 @@ r = requests.get(url, headers=(user_agent))
 server = r.headers['server']
 
 host = url
-print "%s is running %s" %(url,server) 
+print ("%s is running %s") %(url,server) 

@@ -2,7 +2,7 @@
 
 import random
 
-print "simple lottery random numbers generator"
+print "(simple lottery random numbers generator"
 
 while True:
     print ""
