@@ -1,7 +1,7 @@
 import random
 
 # Define a list of the most frequent numbers in the Israeli lottery
-most_frequent_numbers = [5, 7, 14, 19, 21, 26, 30, 32, 36]
+most_frequent_numbers = [5, 7, 14, 19, 21, 26, 30, 32, 36, 10]
 
 # Generate 6 random numbers from 1 to 37
 numbers = random.sample(range(1, 38), 6)
