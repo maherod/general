@@ -14,6 +14,9 @@ REPLICA_COUNT_GAUGE = Gauge('elasticsearch_index_replica_count', 'Number of repl
 
 def connect_to_elasticsearch():
     return Elasticsearch([{'scheme': 'http', 'host': ES_HOST, 'port': ES_PORT}])
+    timeout=30,  # Set the timeout in seconds, e.g., 30 seconds
+    max_retries=3,  # Set the number of retries, e.g., 3 retries
+    retry_on_timeout=True  # Retry on timeout
 
 def list_indices(es):
     return es.cat.indices(format='json')
@@ -24,13 +27,17 @@ def get_index_stats(es, index_name):
 def update_metrics(indices, es):
     for index in indices:
         index_name = index['index']
-        index_stats = get_index_stats(es, index_name)
-        index_info = index_stats['_all']['primaries']
-        index_settings = es.indices.get_settings(index=index_name)[index_name]['settings']['index']
 
-        INDEX_SIZE_GAUGE.labels(index_name=index_name).set(index_info['store']['size_in_bytes'])
-        SHARD_COUNT_GAUGE.labels(index_name=index_name).set(index_settings['number_of_shards'])
-        REPLICA_COUNT_GAUGE.labels(index_name=index_name).set(index_settings['number_of_replicas'])
+        if es.indices.exists(index=index_name):  # Check if the index exists
+            index_stats = get_index_stats(es, index_name)
+            index_info = index_stats['_all']['primaries']
+            index_settings = es.indices.get_settings(index=index_name)[index_name]['settings']['index']
+
+            INDEX_SIZE_GAUGE.labels(index_name=index_name).set(index_info['store']['size_in_bytes'])
+            SHARD_COUNT_GAUGE.labels(index_name=index_name).set(index_settings['number_of_shards'])
+            REPLICA_COUNT_GAUGE.labels(index_name=index_name).set(index_settings['number_of_replicas'])
+        else:
+            print(f"Index {index_name} not found.")
 
 if __name__ == '__main__':
     start_http_server(8000)
