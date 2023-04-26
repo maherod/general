@@ -50,22 +50,6 @@ Replace `<exporter_host>` with the hostname or IP address where the exporter is 
 
 5. Create a Grafana dashboard to visualize the collected metrics. You can use the provided PromQL queries, such as `elasticsearch_index_size_bytes{job="elasticsearch_exporter"}`, to display the index size, shard count, and replica count.
 
-## Docker
-
-To run the exporter in a Docker container, use the provided `Dockerfile` and `requirements.txt` files. Build the Docker image using the following command:
-
-```bash
-docker build -t es_exporter .
-```
-
-Then, run the exporter in a Docker container:
-
-```bash
-docker run -d --name es_exporter -p 8000:8000 -e ES_HOST=<elasticsearch_host> -e ES_PORT=<elasticsearch_port> es_exporter
-```
-
-Replace `<elasticsearch_host>` and `<elasticsearch_port>` with the appropriate values for your Elasticsearch instance.
-
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
