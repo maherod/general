@@ -54,5 +54,3 @@ Replace `<exporter_host>` with the hostname or IP address where the exporter is 
 
 This project is licensed under the [MIT License](LICENSE).
 ```
-
-Save this content as `README.md` in the same directory as the exporter script, `Dockerfile`, and `requirements.txt`. This README file will provide a comprehensive explanation of the exporter, its metrics, requirements, and usage instructions for both standalone and Docker deployments.
