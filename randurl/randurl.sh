@@ -20,35 +20,35 @@ gen_params() {
 
 send_requests() {
   # Sends HTTP requests to the specified endpoint with the specified method
-  local method="$1"
+  local METHOD="$1"
   printf "${YELLOW}------------------------------------${RESET}\n"
-  printf "${BOLD}Testing %s with %s Method\n" "$ENDPOINT" "$method"
+  printf "${BOLD}Testing %s with %s Method\n" "$ENDPOINT" "$METHOD"
   printf "Total: %d Requests\n" "$QUANTITY"
   printf "Base URI: %s\n" "$BASE_URI"
   printf "HIT CTRL+C to Stop\n${RESET}"
   printf "${YELLOW}------------------------------------${RESET}\n"
   gen_params
   sleep 2
-  count=0
+  let count=0
   while read -r param; do
     # Send the request and redirect output to /dev/null
     /usr/bin/curl -s \
       -H "X-Forwarded-for: $IP_ADDRESS" \
       -A "$USER_AGENT" \
-      -s${method:0:1} \
-      -X "$method" \
+      -s${METHOD:0:1} \
+      -X "$METHOD" \
       "$ENDPOINT/$BASE_URI/$param" \
       >/dev/null || {
-        printf "${RED}Error: Failed to send %s request\n${RESET}" "$method"
+        printf "${RED}Error: Failed to send %s request\n${RESET}" "$METHOD"
         exit 1
       }
-    count=$((count+1))
-    progress=$((count*100/QUANTITY))
+    let count++
+    let progress=count*100/QUANTITY
     printf "Progress: [%-20s] %d%%\r" "$(printf "${GREEN}"; printf '%*s' $((progress/5)) '' | tr ' ' '='; printf "${RESET}")" "$progress"
-    sleep 0.1
   done <"$OUTPUT_FILE"
   rm -f "$OUTPUT_FILE"
 }
+
 
 # Main script
 printf "${YELLOW}-----------------------------------------------${RESET}\n"
@@ -80,6 +80,7 @@ fi
 # Call the send_requests function with the specified method
 case "$METHOD" in
   GET | POST | HEAD)
+    # Valid method
     send_requests "$METHOD"
     ;;
   *)
@@ -89,9 +90,6 @@ case "$METHOD" in
     exit 1
     ;;
 esac
-
 printf "${YELLOW}-----------------------------------------------${RESET}\n"
 printf "${BOLD}Finished${RESET}\n"
 printf "${YELLOW}-----------------------------------------------${RESET}\n"
-
-
