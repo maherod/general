@@ -1,6 +1,13 @@
 # Random Parameter Generator for Caching Testing
 
-This script generates random parameters to test a website's caching capabilities. It sends HTTP requests with a specified method (GET, POST, or HEAD) to the provided endpoint, using a random parameter as part of the URL.
+This is a Bash script that generates random parameters and sends HTTP requests to a specified endpoint with a specified method (GET, POST, or HEAD) using cURL. It is designed to test the caching capabilities of a website by utilizing a large number of random parameters.
+
+The script starts by defining some variables such as the user agent, IP address, and output file name. It then defines some color codes and functions for generating parameters and sending HTTP requests. The `gen_params` function generates random parameters and writes them to a file, while the `send_requests` function sends HTTP requests to the specified endpoint with the specified method.
+
+In the main script, the user is prompted to enter the fully qualified domain name (FQDN), base URI, number of requests, and HTTP method. The script then validates the user input and calls the `send_requests` function with the specified method.
+
+Overall, this script could be useful for testing the caching capabilities of a website and ensuring that it is functioning as expected. However, it should only be used with the website owner's permission and in a responsible manner, as excessive or unauthorized testing could lead to website downtime or other issues.
+
 
 ## Usage
 
