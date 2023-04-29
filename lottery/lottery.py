@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import random
 
 # Define a list of the most frequent numbers in the Israeli lottery
