@@ -13,8 +13,8 @@ This script benchmarks web servers using random characters in the URL. It suppor
 1. Clone this repository:
 
 ```
-git clone https://github.com/yourusername/web-server-benchmark.git
-cd web-server-benchmark
+git clone 
+cd web_benchmark
 ```
 
 2. Install the required Python packages:
