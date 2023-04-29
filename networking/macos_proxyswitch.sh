@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Simple bash script to quickly activate / deactivate proxy on macOS
+# bash script to quickly activate / deactivate proxy on macOS
 # maherod@gmail.com
 
 proxy_host="127.0.0.1" 
@@ -10,28 +10,25 @@ GREEN="\033[1;32m"
 RESET="\033[0m"
 
 function proxy_on {
-  echo -e "${GREEN}Setting proxy servers to $proxy_host port $proxy_port on interface $interface"${RESET}
-  sudo networksetup -setwebproxy $interface $proxy_host $proxy_port
-  sudo networksetup -setstreamingproxy $interface $proxy_host $proxy_port
-  sudo networksetup -setsecurewebproxy $interface $proxy_host $proxy_port
-  echo -e "${GREEN}Activating proxy servers on $interface"${RESET}
-  sudo networksetup -setstreamingproxystate $interface on
-  sudo networksetup -setwebproxystate $interface on
-  sudo networksetup -setsecurewebproxystate $interface on
+  echo -e "${GREEN}Setting proxy servers to $proxy_host port $proxy_port on interface $interface${RESET}"
+  for proxy_type in webproxy streamingproxy securewebproxy; do
+    sudo networksetup -set${proxy_type} $interface $proxy_host $proxy_port
+    sudo networksetup -set${proxy_type}state $interface on
+  done
 }
 
 function proxy_off {
-  echo -e "${GREEN}Turning off proxy on $interface interface"${RESET}
-  sudo networksetup -setstreamingproxystate $interface off
-  sudo networksetup -setwebproxystate $interface off
-  sudo networksetup -setsecurewebproxystate $interface off
+  echo -e "${GREEN}Turning off proxy on $interface interface${RESET}"
+  for proxy_type in streamingproxystate webproxystate securewebproxystate; do
+    sudo networksetup -set${proxy_type} $interface off
+  done
 }
 
 function show_settings {
- echo -e "${GREEN}Proxy settings:"${RESET}
- networksetup -getwebproxy $interface
- echo -e "${GREEN}Secure proxy settings:"${RESET}
- networksetup -getsecurewebproxy $interface
+  echo -e "${GREEN}Proxy settings:${RESET}"
+  networksetup -getwebproxy $interface
+  echo -e "${GREEN}Secure proxy settings:${RESET}"
+  networksetup -getsecurewebproxy $interface
 }
 
 case "$1" in
