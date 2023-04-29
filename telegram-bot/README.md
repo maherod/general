@@ -15,7 +15,7 @@ This is a simple Telegram bot that can execute shell commands and send the outpu
 
 ## Installation
 
-1. Clone this repository: `git clone https://github.com/<your_username>/<your_repo>.git`
+1. Clone this repository
 2. Install the required packages: `pip install -r requirements.txt`
 3. Set the `BOT_TOKEN` environment variable to your Telegram bot token: `export BOT_TOKEN=<your_bot_token>`
 
